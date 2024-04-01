@@ -1,0 +1,54 @@
+// Function to simulate a dice roll
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1; // Generates a random number between 1 and 6
+}
+
+// Function to play the gambling game
+function playGame(betAmount) {
+  // Roll two dice
+  var dice1 = rollDice();
+  var dice2 = rollDice();
+  
+   // Calculate the total
+  var total = dice1 + dice2;
+  
+  // Check if the total is even or odd
+  var isEven = total % 2 === 0;
+  
+  // Determine the outcome
+  if ((betAmount % 2 === 0 && isEven) || (betAmount % 2 !== 0 && !isEven)) {
+    return "Congratulations! You win $" + betAmount;
+  } else {
+    return "Sorry, you lose $" + betAmount;
+  }
+}
+
+// Function to process gambling command
+function processGamblingCommand(command) {
+  // Remove the bot prefix
+  var commandWithoutPrefix = command.substring(4).trim(); // Assuming the bot prefix is four characters long
+  
+  // Split the command into parts
+  var parts = commandWithoutPrefix.split(" ");
+  
+  // Check if the command is valid
+  if (parts.length !== 2 || parts[0] !== "gamble" || isNaN(parseInt(parts[1]))) {
+    return "Invalid command. Usage: !gamble <bet amount>";
+  }
+  
+  // Parse the bet amount
+  var betAmount = parseInt(parts[1]);
+  
+  // Check if the bet amount is valid
+  if (betAmount <= 0) {
+    return "Invalid bet amount. Please enter a positive number.";
+  }
+  
+  // Play the game
+  return playGame(betAmount);
+}
+
+// Example usage
+var command = "!gamble 10";
+var result = processGamblingCommand(command);
+console.log(result);
